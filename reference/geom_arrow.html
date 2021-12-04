@@ -83,7 +83,7 @@ transformation and different plot ratios." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">metR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.11.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ transformation and different plot ratios." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -120,7 +120,7 @@ transformation and different plot ratios." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/eliocamp/metR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -343,99 +343,122 @@ meteorological standard, for example, use <code>star = -90</code> and <code>dire
 <code><a href='stat_subset.html'>stat_subset</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://r-datatable.com'>data.table</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>seals</span><span class='op'>)</span>
-<span class='co'># If the velocity components are in the same units as the axis,</span>
-<span class='co'># geom_vector() (or geom_arrow(preserve.dir = TRUE)) might be a better option</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>seals</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>long</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>delta_long</span>, dy <span class='op'>=</span> <span class='va'>delta_lat</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>delta_long</span>, dy <span class='op'>=</span> <span class='va'>delta_lat</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='geom_arrow-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>geopotential</span><span class='op'>)</span>
-<span class='va'>geopotential</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/copy.html'>copy</a></span><span class='op'>(</span><span class='va'>geopotential</span><span class='op'>)</span><span class='op'>[</span><span class='va'>date</span> <span class='op'>==</span> <span class='va'>date</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='va'>geopotential</span><span class='op'>[</span>, <span class='va'>gh.z</span> <span class='op'>:=</span> <span class='fu'><a href='Anomaly.html'>Anomaly</a></span><span class='op'>(</span><span class='va'>gh</span><span class='op'>)</span>, by <span class='op'>=</span> <span class='fu'>.</span><span class='op'>(</span><span class='va'>lat</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;         lon   lat lev       gh       date     gh.z
-#&gt;    1:   0.0 -22.5 700 3163.839 1990-01-01 13.67219
-#&gt;    2:   2.5 -22.5 700 3162.516 1990-01-01 12.34968
-#&gt;    3:   5.0 -22.5 700 3162.226 1990-01-01 12.05939
-#&gt;    4:   7.5 -22.5 700 3162.323 1990-01-01 12.15607
-#&gt;    5:  10.0 -22.5 700 3163.097 1990-01-01 12.93024
-#&gt;   ---                                             
-#&gt; 4028: 347.5 -90.0 700 2715.936 1990-01-01  0.00000
-#&gt; 4029: 350.0 -90.0 700 2715.936 1990-01-01  0.00000
-#&gt; 4030: 352.5 -90.0 700 2715.936 1990-01-01  0.00000
-#&gt; 4031: 355.0 -90.0 700 2715.936 1990-01-01  0.00000
-#&gt; 4032: 357.5 -90.0 700 2715.936 1990-01-01  0.00000</div><div class='input'><span class='va'>geopotential</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"u"</span>, <span class='st'>"v"</span><span class='op'>)</span> <span class='op'>:=</span> <span class='fu'><a href='GeostrophicWind.html'>GeostrophicWind</a></span><span class='op'>(</span><span class='va'>gh.z</span>, <span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;         lon   lat lev       gh       date     gh.z  u           v
-#&gt;    1:   0.0 -22.5 700 3163.839 1990-01-01 13.67219 NA  1.08181190
-#&gt;    2:   2.5 -22.5 700 3162.516 1990-01-01 12.34968 NA  0.55189199
-#&gt;    3:   5.0 -22.5 700 3162.226 1990-01-01 12.05939 NA  0.06625043
-#&gt;    4:   7.5 -22.5 700 3162.323 1990-01-01 12.15607 NA -0.29800162
-#&gt;    5:  10.0 -22.5 700 3163.097 1990-01-01 12.93024 NA -0.75064329
-#&gt;   ---                                                            
-#&gt; 4028: 347.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000
-#&gt; 4029: 350.0 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000
-#&gt; 4030: 352.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000
-#&gt; 4031: 355.0 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000
-#&gt; 4032: 357.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</div><div class='input'>
-<span class='op'>(</span><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>geopotential</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span>, dy <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span><span class='op'>)</span>, skip.x <span class='op'>=</span> <span class='fl'>3</span>, skip.y <span class='op'>=</span> <span class='fl'>2</span>,
-               color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span>, dy <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span><span class='op'>)</span>, skip.x <span class='op'>=</span> <span class='fl'>3</span>, skip.y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span>max_size <span class='op'>=</span> <span class='fl'>2</span>, guide <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='geom_arrow-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># A dramatic illustration of the difference between arrow and vector</span>
-<span class='va'>g</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_polar.html'>coord_polar</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='geom_arrow-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># When plotting winds in a lat-lon grid, a good way to have both</span>
-<span class='co'># the correct direction and an interpretable magnitude is to define</span>
-<span class='co'># the angle by the longitud and latitude displacement and the magnitude</span>
-<span class='co'># by the wind velocity. That way arrows are always parallel to streamlines</span>
-<span class='co'># and their magnitude are in the correct units.</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>geopotential</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_contour.html'>geom_contour</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>gh.z</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>atan2</a></span><span class='op'>(</span><span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span>, <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>180</span><span class='op'>/</span><span class='va'>pi</span>,
-                   mag <span class='op'>=</span> <span class='fu'><a href='Mag.html'>Mag</a></span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span><span class='op'>)</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span>, pivot <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='geom_arrow-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Sverdrup transport</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://r-datatable.com'>data.table</a></span><span class='op'>)</span>
-<span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span>
-<span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>d</span>, by <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,
-                                  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>b</span>, by <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>grid</span><span class='op'>[</span>, <span class='va'>My</span> <span class='op'>:=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>pi</span><span class='op'>*</span><span class='va'>y</span><span class='op'>/</span><span class='va'>b</span><span class='op'>)</span><span class='op'>*</span><span class='va'>pi</span><span class='op'>/</span><span class='va'>b</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;         x  y            My
-#&gt;   1:  1.0  1 -9.708055e-02
-#&gt;   2:  1.5  1 -9.708055e-02
-#&gt;   3:  2.0  1 -9.708055e-02
-#&gt;   4:  2.5  1 -9.708055e-02
-#&gt;   5:  3.0  1 -9.708055e-02
-#&gt;  ---                      
-#&gt; 357:  8.0 10 -3.847341e-17
-#&gt; 358:  8.5 10 -3.847341e-17
-#&gt; 359:  9.0 10 -3.847341e-17
-#&gt; 360:  9.5 10 -3.847341e-17
-#&gt; 361: 10.0 10 -3.847341e-17</div><div class='input'><span class='va'>grid</span><span class='op'>[</span>, <span class='va'>Mx</span> <span class='op'>:=</span> <span class='op'>-</span><span class='va'>pi</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>/</span><span class='va'>b</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='va'>pi</span><span class='op'>*</span><span class='va'>y</span><span class='op'>/</span><span class='va'>b</span><span class='op'>)</span><span class='op'>*</span><span class='op'>(</span><span class='va'>d</span> <span class='op'>-</span> <span class='va'>x</span><span class='op'>)</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;         x  y            My          Mx
-#&gt;   1:  1.0  1 -9.708055e-02 -0.84478964
-#&gt;   2:  1.5  1 -9.708055e-02 -0.79785688
-#&gt;   3:  2.0  1 -9.708055e-02 -0.75092413
-#&gt;   4:  2.5  1 -9.708055e-02 -0.70399137
-#&gt;   5:  3.0  1 -9.708055e-02 -0.65705861
-#&gt;  ---                                  
-#&gt; 357:  8.0 10 -3.847341e-17  0.19739209
-#&gt; 358:  8.5 10 -3.847341e-17  0.14804407
-#&gt; 359:  9.0 10 -3.847341e-17  0.09869604
-#&gt; 360:  9.5 10 -3.847341e-17  0.04934802
-#&gt; 361: 10.0 10 -3.847341e-17  0.00000000</div><div class='input'>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>grid</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>Mx</span>, dy <span class='op'>=</span> <span class='va'>My</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='geom_arrow-5.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-datatable.com'>data.table</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>seals</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># If the velocity components are in the same units as the axis,</span></span>
+<span class='r-in'><span class='co'># geom_vector() (or geom_arrow(preserve.dir = TRUE)) might be a better option</span></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>seals</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>long</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>delta_long</span>, dy <span class='op'>=</span> <span class='va'>delta_lat</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span>, color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>delta_long</span>, dy <span class='op'>=</span> <span class='va'>delta_lat</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>geopotential</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>geopotential</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/copy.html'>copy</a></span><span class='op'>(</span><span class='va'>geopotential</span><span class='op'>)</span><span class='op'>[</span><span class='va'>date</span> <span class='op'>==</span> <span class='va'>date</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='va'>geopotential</span><span class='op'>[</span>, <span class='va'>gh.z</span> <span class='op'>:=</span> <span class='fu'><a href='Anomaly.html'>Anomaly</a></span><span class='op'>(</span><span class='va'>gh</span><span class='op'>)</span>, by <span class='op'>=</span> <span class='fu'>.</span><span class='op'>(</span><span class='va'>lat</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         lon   lat lev       gh       date     gh.z</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1:   0.0 -22.5 700 3163.839 1990-01-01 13.67219</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2:   2.5 -22.5 700 3162.516 1990-01-01 12.34968</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3:   5.0 -22.5 700 3162.226 1990-01-01 12.05939</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4:   7.5 -22.5 700 3162.323 1990-01-01 12.15607</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    5:  10.0 -22.5 700 3163.097 1990-01-01 12.93024</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ---                                             </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4028: 347.5 -90.0 700 2715.936 1990-01-01  0.00000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4029: 350.0 -90.0 700 2715.936 1990-01-01  0.00000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4030: 352.5 -90.0 700 2715.936 1990-01-01  0.00000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4031: 355.0 -90.0 700 2715.936 1990-01-01  0.00000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4032: 357.5 -90.0 700 2715.936 1990-01-01  0.00000</span>
+<span class='r-in'><span class='va'>geopotential</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"u"</span>, <span class='st'>"v"</span><span class='op'>)</span> <span class='op'>:=</span> <span class='fu'><a href='GeostrophicWind.html'>GeostrophicWind</a></span><span class='op'>(</span><span class='va'>gh.z</span>, <span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         lon   lat lev       gh       date     gh.z  u           v</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1:   0.0 -22.5 700 3163.839 1990-01-01 13.67219 NA  1.08181190</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    2:   2.5 -22.5 700 3162.516 1990-01-01 12.34968 NA  0.55189199</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    3:   5.0 -22.5 700 3162.226 1990-01-01 12.05939 NA  0.06625043</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    4:   7.5 -22.5 700 3162.323 1990-01-01 12.15607 NA -0.29800162</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    5:  10.0 -22.5 700 3163.097 1990-01-01 12.93024 NA -0.75064329</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ---                                                            </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4028: 347.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4029: 350.0 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4030: 352.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4031: 355.0 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4032: 357.5 -90.0 700 2715.936 1990-01-01  0.00000 NA  0.00000000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='op'>(</span><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>geopotential</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span>, dy <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span><span class='op'>)</span>, skip.x <span class='op'>=</span> <span class='fl'>3</span>, skip.y <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>               color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span>, dy <span class='op'>=</span> <span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span><span class='op'>)</span>, skip.x <span class='op'>=</span> <span class='fl'>3</span>, skip.y <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span>max_size <span class='op'>=</span> <span class='fl'>2</span>, guide <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># A dramatic illustration of the difference between arrow and vector</span></span>
+<span class='r-in'><span class='va'>g</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/coord_polar.html'>coord_polar</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># When plotting winds in a lat-lon grid, a good way to have both</span></span>
+<span class='r-in'><span class='co'># the correct direction and an interpretable magnitude is to define</span></span>
+<span class='r-in'><span class='co'># the angle by the longitud and latitude displacement and the magnitude</span></span>
+<span class='r-in'><span class='co'># by the wind velocity. That way arrows are always parallel to streamlines</span></span>
+<span class='r-in'><span class='co'># and their magnitude are in the correct units.</span></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>geopotential</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_contour.html'>geom_contour</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>z <span class='op'>=</span> <span class='va'>gh.z</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_vector</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>angle <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>atan2</a></span><span class='op'>(</span><span class='fu'><a href='spherical.html'>dlat</a></span><span class='op'>(</span><span class='va'>v</span><span class='op'>)</span>, <span class='fu'><a href='spherical.html'>dlon</a></span><span class='op'>(</span><span class='va'>u</span>, <span class='va'>lat</span><span class='op'>)</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>180</span><span class='op'>/</span><span class='va'>pi</span>,</span>
+<span class='r-in'>                   mag <span class='op'>=</span> <span class='fu'><a href='Mag.html'>Mag</a></span><span class='op'>(</span><span class='va'>v</span>, <span class='va'>u</span><span class='op'>)</span><span class='op'>)</span>, skip <span class='op'>=</span> <span class='fl'>1</span>, pivot <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Sverdrup transport</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://r-datatable.com'>data.table</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>b</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span class='r-in'><span class='va'>d</span> <span class='op'>&lt;-</span> <span class='fl'>10</span></span>
+<span class='r-in'><span class='va'>grid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://Rdatatable.gitlab.io/data.table/reference/as.data.table.html'>as.data.table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/expand.grid.html'>expand.grid</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>d</span>, by <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                  y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='va'>b</span>, by <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>grid</span><span class='op'>[</span>, <span class='va'>My</span> <span class='op'>:=</span> <span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='va'>pi</span><span class='op'>*</span><span class='va'>y</span><span class='op'>/</span><span class='va'>b</span><span class='op'>)</span><span class='op'>*</span><span class='va'>pi</span><span class='op'>/</span><span class='va'>b</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         x  y            My</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1:  1.0  1 -9.708055e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2:  1.5  1 -9.708055e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   3:  2.0  1 -9.708055e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4:  2.5  1 -9.708055e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   5:  3.0  1 -9.708055e-02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  ---                      </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 357:  8.0 10 -3.847341e-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 358:  8.5 10 -3.847341e-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 359:  9.0 10 -3.847341e-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 360:  9.5 10 -3.847341e-17</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 361: 10.0 10 -3.847341e-17</span>
+<span class='r-in'><span class='va'>grid</span><span class='op'>[</span>, <span class='va'>Mx</span> <span class='op'>:=</span> <span class='op'>-</span><span class='va'>pi</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>/</span><span class='va'>b</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>cos</a></span><span class='op'>(</span><span class='va'>pi</span><span class='op'>*</span><span class='va'>y</span><span class='op'>/</span><span class='va'>b</span><span class='op'>)</span><span class='op'>*</span><span class='op'>(</span><span class='va'>d</span> <span class='op'>-</span> <span class='va'>x</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         x  y            My          Mx</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1:  1.0  1 -9.708055e-02 -0.84478964</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2:  1.5  1 -9.708055e-02 -0.79785688</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   3:  2.0  1 -9.708055e-02 -0.75092413</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4:  2.5  1 -9.708055e-02 -0.70399137</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   5:  3.0  1 -9.708055e-02 -0.65705861</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  ---                                  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 357:  8.0 10 -3.847341e-17  0.19739209</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 358:  8.5 10 -3.847341e-17  0.14804407</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 359:  9.0 10 -3.847341e-17  0.09869604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 360:  9.5 10 -3.847341e-17  0.04934802</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 361: 10.0 10 -3.847341e-17  0.00000000</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>grid</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>Mx</span>, dy <span class='op'>=</span> <span class='va'>My</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Due to limitations in ggplot2 (see: https://github.com/tidyverse/ggplot2/issues/4291),</span></span>
+<span class='r-in'><span class='co'># if you define the vector with the dx and dy aesthetics, you need</span></span>
+<span class='r-in'><span class='co'># to explicitly add scale_mag() in order to show the arrow legend.</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>grid</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>dx <span class='op'>=</span> <span class='va'>Mx</span>, dy <span class='op'>=</span> <span class='va'>My</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='scale_mag.html'>scale_mag</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Alternative, use Mag and Angle.</span></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>grid</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>geom_arrow</span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>mag <span class='op'>=</span> <span class='fu'><a href='Mag.html'>Mag</a></span><span class='op'>(</span><span class='va'>Mx</span>, <span class='va'>My</span><span class='op'>)</span>, angle <span class='op'>=</span> <span class='fu'><a href='Mag.html'>Angle</a></span><span class='op'>(</span><span class='va'>Mx</span>, <span class='va'>My</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='geom_arrow-7.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
