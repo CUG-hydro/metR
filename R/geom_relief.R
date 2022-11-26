@@ -31,11 +31,10 @@
 #' }
 #'
 #' @examples
-#' \dontrun{
 #' library(ggplot2)
 #' ggplot(reshape2::melt(volcano), aes(Var1, Var2)) +
 #'       geom_relief(aes(z = value))
-#' }
+#' 
 #' @family ggplot2 helpers
 #'
 #' @export
