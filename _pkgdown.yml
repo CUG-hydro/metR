@@ -65,10 +65,10 @@ reference:
       - spherical
       - as.path
       - cut.eof
+      - Smooth2D
   - title: Datasets
     desc: sample datasets
     contents:
       - geopotential
       - temperature
       - surface
-
